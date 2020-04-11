@@ -8,6 +8,8 @@
 
 import UIKit
 import NotificationBannerSwift
+import Simple_Networking
+import SVProgressHUD
 
 class RegisterVC: UIViewController {
     
@@ -51,7 +53,25 @@ class RegisterVC: UIViewController {
             return
         }
         
-        performSegue(withIdentifier: AppConstans.SHOW_HOME, sender: nil)
-        //registro aqui
+        
+        let request = RegisterRequest(email: email, password: password, names: name)
+        SVProgressHUD.show()
+        SN.post(endpoint: Routes.REGISTER, model: request) { (response: SNResultWithEntity<LoginRegisterResponse, ErrorResponse>) in
+            
+            SVProgressHUD.dismiss()
+            switch response {
+            case .success(let user):
+                NotificationBanner(subtitle: "Bienvenido \(user.user.names)", style: .success).show()
+                self.performSegue(withIdentifier: AppConstans.SHOW_HOME, sender: nil)
+                
+            case .error(let error):
+                NotificationBanner(subtitle: "\(error)", style: .warning).show()
+                return
+                
+            case .errorResult(let entity):
+                NotificationBanner(subtitle: "\(entity.error)", style: .danger).show()
+                return
+            }
+        }
     }
 }

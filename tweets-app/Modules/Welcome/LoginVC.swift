@@ -59,11 +59,11 @@ class LoginVC: UIViewController {
                 self.performSegue(withIdentifier: AppConstans.SHOW_HOME, sender: nil)
                 
             case .error(let error):
-                NotificationBanner(subtitle: "Error \(error)", style: .warning).show()
+                NotificationBanner(subtitle: "\(error)", style: .warning).show()
                 return
                 
             case .errorResult(let entity):
-                NotificationBanner(subtitle: "Error \(entity.error)", style: .danger).show()
+                NotificationBanner(subtitle: "\(entity.error)", style: .danger).show()
                 return
             }
         }
