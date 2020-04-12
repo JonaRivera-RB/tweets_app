@@ -9,7 +9,7 @@
 import Foundation
 
 
-struct GeneralResponse {
+struct GeneralResponse: Codable {
     let isDone: Bool
     let message: String
 }

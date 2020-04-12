@@ -1,4 +1,4 @@
-framework module Pods_tweets_app {
+module Pods_tweets_app {
   umbrella header "Pods-tweets-app-umbrella.h"
 
   export *
