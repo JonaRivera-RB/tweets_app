@@ -10,6 +10,7 @@ import UIKit
 import SVProgressHUD
 import Simple_Networking
 import NotificationBannerSwift
+import AVKit
 
 class HomeVC: UIViewController {
     //MARK: - IBOutlets
@@ -38,7 +39,7 @@ class HomeVC: UIViewController {
     
     private func getPosts() {
         SVProgressHUD.show()
-
+        
         SN.get(endpoint: Routes.GET_POST) { (result: SNResultWithEntity<[Tweet], ErrorResponse>) in
             
             SVProgressHUD.dismiss()
@@ -94,6 +95,17 @@ extension HomeVC: UITableViewDataSource {
         
         if let cell = cell as? TweetTVCell {
             cell.setupCellWith(tweet: dataSource[indexPath.row])
+            
+            cell.needsToShowVideo = { url in
+                let avPlayer = AVPlayer(url: url)
+                
+                let avPlayerController = AVPlayerViewController()
+                avPlayerController.player = avPlayer
+                
+                self.present(avPlayerController, animated: true) {
+                    avPlayerController.player?.play()
+                }
+            }
         }
         
         return cell
